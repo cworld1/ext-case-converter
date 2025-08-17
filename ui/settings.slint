@@ -1,8 +1,8 @@
 import { Button, ComboBox } from "std-widgets.slint";
 
 export component SettingsPanel inherits Window {
-    width: 300px;
-    height: 200px;
+    preferred-width: 360px;
+    preferred-height: 280px;
     title: "设置";
 
     in-out property <string> language;
@@ -11,8 +11,18 @@ export component SettingsPanel inherits Window {
     in-out property <int> selected_theme_index: 0;
 
     VerticalLayout {
-        Text {
-            text: "语言";
+        padding: 20px;
+        spacing: 20px;
+
+        HorizontalLayout {
+            spacing: 8px;
+            alignment: space-between;
+
+            Text {
+                text: "语言";
+                font-size: 14px;
+                vertical-alignment: center;
+            }
 
             ComboBox {
                 model: ["中文", "English"];
@@ -29,17 +39,27 @@ export component SettingsPanel inherits Window {
             }
         }
 
-        Text {
+        // 主题设置
+        HorizontalLayout {
+            spacing: 8px;
+            alignment: space-between;
+
+            Text {
+                text: "主题";
+                font-size: 14px;
+                vertical-alignment: center;
+            }
+
             ComboBox {
-                model: ["中文", "English"];
-                current-index: root.selected_language_index;
+                model: ["浅色", "深色", "跟随系统"];
+                current-index: root.selected_theme_index;
                 selected(value) => {
-                    if value == "中文" {
-                        root.language = "zh";
-                        root.selected_language_index = 0;
-                    } else if value == "English" {
-                        root.language = "en";
-                        root.selected_language_index = 1;
+                    if value == "深色" {
+                        root.dark_mode = true;
+                        root.selected_theme_index = 1;
+                    } else if value == "浅色" {
+                        root.dark_mode = false;
+                        root.selected_theme_index = 0;
                     } else {
                         root.selected_theme_index = 2;
                     }
@@ -47,18 +67,13 @@ export component SettingsPanel inherits Window {
             }
         }
 
-        ComboBox {
-            model: ["浅色", "深色", "跟随系统"];
-            current-index: root.selected_theme_index;
-            selected(value) => {
-                if value == "深色" {
-                    root.dark_mode = true;
-                    root.selected_theme_index = 1;
-                } else if value == "浅色" {
-                    root.dark_mode = false;
-                    root.selected_theme_index = 0;
-                } else {
-                    root.selected_theme_index = 2;
+        // 底部按钮
+        HorizontalLayout {
+            alignment: end;
+            Button {
+                text: "确定";
+                clicked => {
+                    root.close_settings();
                 }
             }
         }

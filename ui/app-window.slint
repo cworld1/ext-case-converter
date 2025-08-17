@@ -24,7 +24,6 @@ export component AppWindow inherits Window {
 
         // 顶部按钮区
         HorizontalLayout {
-            height: 40px;
             spacing: 8px;
             alignment: space-between;
 
@@ -32,7 +31,6 @@ export component AppWindow inherits Window {
                 spacing: 8px;
                 Button {
                     text: "选择文件/文件夹";
-                    primary: true;
                     clicked => {
                         root.select_files();
                     }
@@ -68,14 +66,9 @@ export component AppWindow inherits Window {
 
         // 文件列表区域
         Rectangle {
-            background: white;
-            border-radius: 4px;
+            border-radius: 6px;
             border-width: 1px;
-            border-color: #ddd;
-            drop-shadow-color: #00000020;
-            drop-shadow-offset-x: 0px;
-            drop-shadow-offset-y: 2px;
-            drop-shadow-blur: 4px;
+            border-color: #717171;
 
             ScrollView {
                 width: parent.width;
@@ -89,26 +82,23 @@ export component AppWindow inherits Window {
                         height: 100px;
                         TouchArea {
                             // 拖拽事件需在 Rust 侧处理
-                        }
-
-                        Text {
-                            text: "将文件或文件夹拖放到此处";
-                            color: #666;
-                            font-size: 14px;
-                            horizontal-alignment: center;
-                            vertical-alignment: center;
+                            Text {
+                                text: "将文件或文件夹拖放到此处";
+                                font-size: 14px;
+                                horizontal-alignment: center;
+                                vertical-alignment: center;
+                            }
                         }
                     }
 
                     for file in root.file_list: Rectangle {
                         height: 24px;
-                        background: #f9f9f9;
+                        background: #ffffff37;
                         border-radius: 2px;
 
                         Text {
                             text: file;
                             font-size: 13px;
-                            color: #333;
                             horizontal-alignment: left;
                             vertical-alignment: center;
                             x: 8px;
@@ -143,12 +133,13 @@ export component AppWindow inherits Window {
         // 进度条区
         Rectangle {
             height: 24px;
-            border-radius: 12px;
-            background: #eee;
+            border-radius: 5px;
+            border-width: 1px;
+            border-color: #717171;
             clip: true;
 
             Rectangle {
-                background: #4caf50;
+                background: #32ca95;
                 width: root.progress * parent.width;
                 height: parent.height;
                 animate width {
@@ -174,14 +165,9 @@ export component AppWindow inherits Window {
 
         // 结果展示区
         Rectangle {
-            background: white;
-            border-radius: 4px;
+            border-radius: 5px;
             border-width: 1px;
-            border-color: #ddd;
-            drop-shadow-color: #00000020;
-            drop-shadow-offset-x: 0px;
-            drop-shadow-offset-y: 2px;
-            drop-shadow-blur: 4px;
+            border-color: #717171;
 
             ScrollView {
                 width: parent.width;

@@ -1,18 +1,54 @@
 import { Button } from "std-widgets.slint";
 
 export component AboutPanel inherits Window {
-    width: 300px;
-    height: 150px;
+    preferred-width: 320px;
+    preferred-height: 200px;
     title: "关于";
 
-    Text {
-        text: "扩展名大小写转换工具\n版本 1.0\n作者: CWorld";
-    }
+    VerticalLayout {
+        padding: 16px;
+        spacing: 16px;
 
-    Button {
-        text: "关闭";
-        clicked => {
-            root.close_about();
+        Rectangle {
+            border-radius: 6px;
+            border-width: 1px;
+            border-color: #717171;
+
+            VerticalLayout {
+                padding: 16px;
+                spacing: 8px;
+                alignment: center;
+
+                Text {
+                    text: "扩展名大小写转换工具";
+                    font-size: 18px;
+                }
+
+                Text {
+                    text: "版本: v1.0";
+                    font-size: 14px;
+                }
+
+                Text {
+                    text: "作者: CWorld";
+                    font-size: 14px;
+                }
+
+                Text {
+                    text: "GitHub: https://github.com/cworld1/ext-case-converter";
+                    font-size: 14px;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            alignment: end;
+            Button {
+                text: "确认";
+                clicked => {
+                    root.close_about();
+                }
+            }
         }
     }
 
