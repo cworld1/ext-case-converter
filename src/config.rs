@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::PathBuf;
+use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 pub struct AppConfig {
@@ -20,10 +21,9 @@ impl Default for AppConfig {
 
 impl AppConfig {
     pub fn config_file_path() -> PathBuf {
-        // 使用程序目录下的config.txt
         let mut path = std::env::current_exe().unwrap_or_else(|_| PathBuf::from("."));
         path.pop(); // 移除exe文件名
-        path.push("config.txt");
+        path.push("config.toml");
         path
     }
 
@@ -31,7 +31,7 @@ impl AppConfig {
         let path = Self::config_file_path();
         if path.exists() {
             if let Ok(content) = fs::read_to_string(&path) {
-                return Self::parse_config(&content);
+                return Self::parse_toml(&content).unwrap_or_default();
             }
         }
         Self::default()
@@ -39,27 +39,37 @@ impl AppConfig {
 
     pub fn save(&self) -> Result<(), Box<dyn std::error::Error>> {
         let path = Self::config_file_path();
-        let content = format!(
-            "language={}\ntheme={}\ndark_mode={}\n",
-            self.language, self.theme, self.dark_mode
-        );
+        let content = self.to_toml();
         fs::write(&path, content)?;
         Ok(())
     }
 
-    fn parse_config(content: &str) -> Self {
+    fn parse_toml(content: &str) -> Result<Self, toml::de::Error> {
+        let table: HashMap<String, toml::Value> = toml::from_str(content)?;
+        
         let mut config = Self::default();
-        for line in content.lines() {
-            if let Some((key, value)) = line.split_once('=') {
-                match key.trim() {
-                    "language" => config.language = value.trim().to_string(),
-                    "theme" => config.theme = value.trim().to_string(),
-                    "dark_mode" => config.dark_mode = value.trim() == "true",
-                    _ => {}
-                }
-            }
+        if let Some(language) = table.get("language").and_then(|v| v.as_str()) {
+            config.language = language.to_string();
         }
-        config
+        if let Some(theme) = table.get("theme").and_then(|v| v.as_str()) {
+            config.theme = theme.to_string();
+        }
+        if let Some(dark_mode) = table.get("dark_mode").and_then(|v| v.as_bool()) {
+            config.dark_mode = dark_mode;
+        }
+        
+        Ok(config)
+    }
+
+    fn to_toml(&self) -> String {
+        format!(
+            r#"# File Extension Case Converter Configuration
+language = "{}"
+theme = "{}"
+dark_mode = {}
+"#,
+            self.language, self.theme, self.dark_mode
+        )
     }
 
     pub fn get_theme_index(&self) -> i32 {
