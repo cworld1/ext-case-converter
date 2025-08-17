@@ -1,0 +1,68 @@
+import { Button, ComboBox } from "std-widgets.slint";
+
+export component SettingsPanel inherits Window {
+    width: 300px;
+    height: 200px;
+    title: "设置";
+
+    in-out property <string> language;
+    in-out property <bool> dark_mode;
+    in-out property <int> selected_language_index: 0;
+    in-out property <int> selected_theme_index: 0;
+
+    VerticalLayout {
+        Text {
+            text: "语言";
+
+            ComboBox {
+                model: ["中文", "English"];
+                current-index: root.selected_language_index;
+                selected(value) => {
+                    if value == "中文" {
+                        root.language = "zh";
+                        root.selected_language_index = 0;
+                    } else {
+                        root.language = "en";
+                        root.selected_language_index = 1;
+                    }
+                }
+            }
+        }
+
+        Text {
+            ComboBox {
+                model: ["中文", "English"];
+                current-index: root.selected_language_index;
+                selected(value) => {
+                    if value == "中文" {
+                        root.language = "zh";
+                        root.selected_language_index = 0;
+                    } else if value == "English" {
+                        root.language = "en";
+                        root.selected_language_index = 1;
+                    } else {
+                        root.selected_theme_index = 2;
+                    }
+                }
+            }
+        }
+
+        ComboBox {
+            model: ["浅色", "深色", "跟随系统"];
+            current-index: root.selected_theme_index;
+            selected(value) => {
+                if value == "深色" {
+                    root.dark_mode = true;
+                    root.selected_theme_index = 1;
+                } else if value == "浅色" {
+                    root.dark_mode = false;
+                    root.selected_theme_index = 0;
+                } else {
+                    root.selected_theme_index = 2;
+                }
+            }
+        }
+    }
+
+    callback close_settings();
+}

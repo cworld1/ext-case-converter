@@ -1,0 +1,20 @@
+import { Button } from "std-widgets.slint";
+
+export component AboutPanel inherits Window {
+    width: 300px;
+    height: 150px;
+    title: "关于";
+
+    Text {
+        text: "扩展名大小写转换工具\n版本 1.0\n作者: CWorld";
+    }
+
+    Button {
+        text: "关闭";
+        clicked => {
+            root.close_about();
+        }
+    }
+
+    callback close_about();
+}

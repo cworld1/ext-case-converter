@@ -1,0 +1,201 @@
+import { Button, Switch, ScrollView } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    preferred-width: 600px;
+    preferred-height: 500px;
+    title: "扩展名大小写转换工具";
+
+    in-out property <[string]> file_list: [];
+    in-out property <bool> recursive: false;
+    in-out property <bool> dark_mode: false;
+    in-out property <string> language: "zh";
+    in-out property <float> progress: 0.0;
+    in-out property <string> result_text: "";
+
+    callback drop_files(drop_data: string);
+    callback convert_case(mode: string);
+    callback select_files();
+    callback show_settings();
+    callback show_about();
+
+    VerticalLayout {
+        padding: 16px;
+        spacing: 16px;
+
+        // 顶部按钮区
+        HorizontalLayout {
+            height: 40px;
+            spacing: 8px;
+            alignment: space-between;
+
+            HorizontalLayout {
+                spacing: 8px;
+                Button {
+                    text: "选择文件/文件夹";
+                    primary: true;
+                    clicked => {
+                        root.select_files();
+                    }
+                }
+
+                Switch {
+                    text: "递归子目录";
+                    checked: root.recursive;
+                    toggled => {
+                        root.recursive = !root.recursive;
+                    }
+                }
+            }
+
+            HorizontalLayout {
+                spacing: 8px;
+                alignment: end;
+                Button {
+                    text: "设置";
+                    clicked => {
+                        root.show_settings();
+                    }
+                }
+
+                Button {
+                    text: "关于";
+                    clicked => {
+                        root.show_about();
+                    }
+                }
+            }
+        }
+
+        // 文件列表区域
+        Rectangle {
+            background: white;
+            border-radius: 4px;
+            border-width: 1px;
+            border-color: #ddd;
+            drop-shadow-color: #00000020;
+            drop-shadow-offset-x: 0px;
+            drop-shadow-offset-y: 2px;
+            drop-shadow-blur: 4px;
+
+            ScrollView {
+                width: parent.width;
+                height: parent.height;
+
+                VerticalLayout {
+                    padding: 8px;
+                    spacing: 4px;
+
+                    if root.file_list.length == 0: Rectangle {
+                        height: 100px;
+                        TouchArea {
+                            // 拖拽事件需在 Rust 侧处理
+                        }
+
+                        Text {
+                            text: "将文件或文件夹拖放到此处";
+                            color: #666;
+                            font-size: 14px;
+                            horizontal-alignment: center;
+                            vertical-alignment: center;
+                        }
+                    }
+
+                    for file in root.file_list: Rectangle {
+                        height: 24px;
+                        background: #f9f9f9;
+                        border-radius: 2px;
+
+                        Text {
+                            text: file;
+                            font-size: 13px;
+                            color: #333;
+                            horizontal-alignment: left;
+                            vertical-alignment: center;
+                            x: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 操作按钮区
+        HorizontalLayout {
+            height: 40px;
+            spacing: 8px;
+
+            Button {
+                text: "转为大写";
+                primary: true;
+                clicked => {
+                    root.convert_case("upper");
+                }
+            }
+
+            Button {
+                text: "转为小写";
+                primary: true;
+                clicked => {
+                    root.convert_case("lower");
+                }
+            }
+        }
+
+        // 进度条区
+        Rectangle {
+            height: 24px;
+            border-radius: 12px;
+            background: #eee;
+            clip: true;
+
+            Rectangle {
+                background: #4caf50;
+                width: root.progress * parent.width;
+                height: parent.height;
+                animate width {
+                    duration: 200ms;
+                    easing: ease-out;
+                }
+            }
+
+            Rectangle {
+                height: parent.height;
+                width: parent.width;
+                background: transparent;
+                Text {
+                    text: floor(root.progress * 100) + "%";
+                    color: white;
+                    font-size: 12px;
+                    font-weight: 700;
+                    horizontal-alignment: center;
+                    vertical-alignment: center;
+                }
+            }
+        }
+
+        // 结果展示区
+        Rectangle {
+            background: white;
+            border-radius: 4px;
+            border-width: 1px;
+            border-color: #ddd;
+            drop-shadow-color: #00000020;
+            drop-shadow-offset-x: 0px;
+            drop-shadow-offset-y: 2px;
+            drop-shadow-blur: 4px;
+
+            ScrollView {
+                width: parent.width;
+                height: parent.height;
+                viewport-height: self.visible-height;
+
+                Text {
+                    padding: 8px;
+                    text: root.result_text;
+                    wrap: word-wrap;
+                    color: #333;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
