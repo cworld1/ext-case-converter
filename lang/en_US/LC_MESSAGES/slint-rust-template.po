@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: File Extension Case Converter 1.0.0\n"
+"POT-Creation-Date: 2025-08-17 17:18+0000\n"
+"PO-Revision-Date: 2025-08-17 17:30+0000\n"
+"Last-Translator: Developer\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: about.slint:6
+msgctxt "AboutPanel"
+msgid "About"
+msgstr "About"
+
+#: about.slint:32
+msgctxt "AboutPanel"
+msgid "File Extension Case Converter"
+msgstr "File Extension Case Converter"
+
+#: about.slint:50
+msgctxt "AboutPanel"
+msgid ""
+"A simple tool to convert file extension cases between uppercase and "
+"lowercase."
+msgstr ""
+"A simple tool to convert file extension cases between uppercase and "
+"lowercase."
+
+#: about.slint:57
+msgctxt "AboutPanel"
+msgid "Built with Slint UI framework and Rust."
+msgstr "Built with Slint UI framework and Rust."
+
+#: about.slint:80
+msgctxt "AboutPanel"
+msgid "OK"
+msgstr "OK"
+
+#: app-window.slint:6
+msgctxt "AppWindow"
+msgid "File Extension Case Converter"
+msgstr "File Extension Case Converter"
+
+#: app-window.slint:33
+msgctxt "AppWindow"
+msgid "Select Files/Folders"
+msgstr "Select Files/Folders"
+
+#: app-window.slint:40
+msgctxt "AppWindow"
+msgid "Recursive Subdirectories"
+msgstr "Recursive Subdirectories"
+
+#: app-window.slint:52
+msgctxt "AppWindow"
+msgid "Settings"
+msgstr "Settings"
+
+#: app-window.slint:59
+msgctxt "AppWindow"
+msgid "About"
+msgstr "About"
+
+#: app-window.slint:86
+msgctxt "AppWindow"
+msgid "Drag and drop files or folders here"
+msgstr "Drag and drop files or folders here"
+
+#: app-window.slint:117
+msgctxt "AppWindow"
+msgid "Convert to Uppercase"
+msgstr "Convert to Uppercase"
+
+#: app-window.slint:125
+msgctxt "AppWindow"
+msgid "Convert to Lowercase"
+msgstr "Convert to Lowercase"
+
+#: settings.slint:6
+msgctxt "SettingsPanel"
+msgid "Settings"
+msgstr "Settings"
+
+#: settings.slint:23
+msgctxt "SettingsPanel"
+msgid "Language"
+msgstr "Language"
+
+#: settings.slint:50
+msgctxt "SettingsPanel"
+msgid "Theme"
+msgstr "Theme"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Light"
+msgstr "Light"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Dark"
+msgstr "Dark"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Follow System"
+msgstr "Follow System"
+
+#: settings.slint:81
+msgctxt "SettingsPanel"
+msgid "OK"
+msgstr "OK"

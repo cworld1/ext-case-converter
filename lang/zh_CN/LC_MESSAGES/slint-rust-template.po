@@ -1,0 +1,114 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: File Extension Case Converter 1.0.0\n"
+"POT-Creation-Date: 2025-08-17 17:18+0000\n"
+"PO-Revision-Date: 2025-08-17 17:30+0000\n"
+"Last-Translator: Developer\n"
+"Language-Team: Chinese Simplified\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: about.slint:6
+msgctxt "AboutPanel"
+msgid "About"
+msgstr "关于"
+
+#: about.slint:32
+msgctxt "AboutPanel"
+msgid "File Extension Case Converter"
+msgstr "扩展名大小写转换工具"
+
+#: about.slint:50
+msgctxt "AboutPanel"
+msgid ""
+"A simple tool to convert file extension cases between uppercase and "
+"lowercase."
+msgstr "一个用于在大写和小写之间转换文件扩展名的简单工具。"
+
+#: about.slint:57
+msgctxt "AboutPanel"
+msgid "Built with Slint UI framework and Rust."
+msgstr "使用 Slint UI 框架和 Rust 构建。"
+
+#: about.slint:80
+msgctxt "AboutPanel"
+msgid "OK"
+msgstr "确定"
+
+#: app-window.slint:6
+msgctxt "AppWindow"
+msgid "File Extension Case Converter"
+msgstr "扩展名大小写转换工具"
+
+#: app-window.slint:33
+msgctxt "AppWindow"
+msgid "Select Files/Folders"
+msgstr "选择文件/文件夹"
+
+#: app-window.slint:40
+msgctxt "AppWindow"
+msgid "Recursive Subdirectories"
+msgstr "递归子目录"
+
+#: app-window.slint:52
+msgctxt "AppWindow"
+msgid "Settings"
+msgstr "设置"
+
+#: app-window.slint:59
+msgctxt "AppWindow"
+msgid "About"
+msgstr "关于"
+
+#: app-window.slint:86
+msgctxt "AppWindow"
+msgid "Drag and drop files or folders here"
+msgstr "将文件或文件夹拖放到此处"
+
+#: app-window.slint:117
+msgctxt "AppWindow"
+msgid "Convert to Uppercase"
+msgstr "转为大写"
+
+#: app-window.slint:125
+msgctxt "AppWindow"
+msgid "Convert to Lowercase"
+msgstr "转为小写"
+
+#: settings.slint:6
+msgctxt "SettingsPanel"
+msgid "Settings"
+msgstr "设置"
+
+#: settings.slint:23
+msgctxt "SettingsPanel"
+msgid "Language"
+msgstr "语言"
+
+#: settings.slint:50
+msgctxt "SettingsPanel"
+msgid "Theme"
+msgstr "主题"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Light"
+msgstr "浅色"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Dark"
+msgstr "深色"
+
+#: settings.slint:57
+msgctxt "SettingsPanel"
+msgid "Follow System"
+msgstr "跟随系统"
+
+#: settings.slint:81
+msgctxt "SettingsPanel"
+msgid "OK"
+msgstr "确定"
