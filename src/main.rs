@@ -7,10 +7,29 @@ use std::fs;
 use walkdir::WalkDir;
 use std::error::Error;
 
+mod config;
+
+use config::AppConfig;
+
 slint::include_modules!();
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let config = Rc::new(RefCell::new(AppConfig::load()));
     let app = AppWindow::new()?;
+    
+    // 应用初始配置并设置语言
+    {
+        let cfg = config.borrow();
+        app.set_language(cfg.language.clone().into());
+        app.set_dark_mode(cfg.dark_mode);
+        
+        // 设置 Slint 的语言
+        let _ = match cfg.language.as_str() {
+            "zh" => slint::select_bundled_translation("zh_CN"),
+            "en" => slint::select_bundled_translation("en_US"),
+            _ => slint::select_bundled_translation("zh_CN"),
+        };
+    }
 
     let app_weak = app.as_weak();
     app.on_drop_files(move |drop_data| {
@@ -82,16 +101,47 @@ fn main() -> Result<(), Box<dyn Error>> {
     });
 
     let app_weak = app.as_weak();
+    let config_clone = config.clone();
     app.on_show_settings(move || {
         let settings = SettingsPanel::new().unwrap();
         let settings_weak = settings.as_weak();
         let app_weak2 = app_weak.clone();
+        let config_clone2 = config_clone.clone();
+        
+        // 设置当前配置值
+        {
+            let cfg = config_clone.borrow();
+            settings.set_language(cfg.language.clone().into());
+            settings.set_dark_mode(cfg.dark_mode);
+            settings.set_selected_language_index(cfg.get_language_index());
+            settings.set_selected_theme_index(cfg.get_theme_index());
+        }
         
         settings.on_close_settings(move || {
             if let Some(app) = app_weak2.upgrade() {
                 if let Some(settings) = settings_weak.upgrade() {
-                    app.set_language(settings.get_language());
-                    app.set_dark_mode(settings.get_dark_mode());
+                    let mut cfg = config_clone2.borrow_mut();
+                    
+                    // 更新配置
+                    cfg.set_language_by_index(settings.get_selected_language_index());
+                    cfg.set_theme_by_index(settings.get_selected_theme_index());
+                    
+                    // 保存配置
+                    if let Err(e) = cfg.save() {
+                        eprintln!("Failed to save config: {}", e);
+                    }
+                    
+                    // 设置 Slint 的语言
+                    let _ = match cfg.language.as_str() {
+                        "zh" => slint::select_bundled_translation("zh_CN"),
+                        "en" => slint::select_bundled_translation("en_US"),
+                        _ => slint::select_bundled_translation("zh_CN"),
+                    };
+                    
+                    // 应用设置到主窗口
+                    app.set_language(cfg.language.clone().into());
+                    app.set_dark_mode(cfg.dark_mode);
+                    
                     settings.hide().unwrap();
                 }
             }
