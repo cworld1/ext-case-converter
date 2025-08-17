@@ -6,6 +6,8 @@ use std::path::PathBuf;
 use std::fs;
 use walkdir::WalkDir;
 use std::error::Error;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 mod config;
 
@@ -57,11 +59,25 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let app_weak = app.as_weak();
     app.on_select_files(move || {
-        // TODO: 文件选择对话框，暂用空实现
         if let Some(app) = app_weak.upgrade() {
-            let shared: Vec<SharedString> = vec![SharedString::from("C:/example.txt")];
-            let model: ModelRc<SharedString> = ModelRc::from(&shared[..]);
-            app.set_file_list(model);
+            // 创建文件选择对话框
+            let files = rfd::FileDialog::new()
+                .add_filter("所有文件", &["*"])
+                .set_title("选择要转换的文件")
+                .pick_files();
+            
+            if let Some(file_paths) = files {
+                let mut files_list = vec![];
+                for path in file_paths {
+                    files_list.push(path.to_string_lossy().to_string());
+                }
+                
+                if !files_list.is_empty() {
+                    let shared: Vec<SharedString> = files_list.into_iter().map(SharedString::from).collect();
+                    let model: ModelRc<SharedString> = ModelRc::from(&shared[..]);
+                    app.set_file_list(model);
+                }
+            }
         }
     });
 
@@ -69,13 +85,41 @@ fn main() -> Result<(), Box<dyn Error>> {
     app.on_convert_case(move |mode| {
         if let Some(app) = app_weak.upgrade() {
             let files = app.get_file_list();
-            let _recursive = app.get_recursive();
+            let recursive = app.get_recursive();
             let mut processed = 0;
-            let total = files.row_count();
             let mut result = String::new();
-            for i in 0..total {
-                let file = files.row_data(i).unwrap().to_string();
-                let path = PathBuf::from(&file);
+            
+            // 收集所有需要处理的文件
+            let mut all_files = vec![];
+            for i in 0..files.row_count() {
+                let file_path = files.row_data(i).unwrap().to_string();
+                let path = PathBuf::from(&file_path);
+                
+                if path.is_file() {
+                    all_files.push(path);
+                } else if path.is_dir() && recursive {
+                    // 递归扫描目录
+                    for entry in WalkDir::new(&path).into_iter().flatten() {
+                        if entry.path().is_file() {
+                            all_files.push(entry.path().to_path_buf());
+                        }
+                    }
+                } else if path.is_dir() {
+                    // 只扫描直接子文件
+                    if let Ok(entries) = fs::read_dir(&path) {
+                        for entry in entries.flatten() {
+                            if entry.path().is_file() {
+                                all_files.push(entry.path());
+                            }
+                        }
+                    }
+                }
+            }
+            
+            let total = all_files.len();
+            app.set_progress(0.0);
+            
+            for (index, path) in all_files.iter().enumerate() {
                 let ext = path.extension().and_then(|e| e.to_str());
                 if let Some(ext) = ext {
                     let new_ext = match mode.as_str() {
@@ -83,19 +127,32 @@ fn main() -> Result<(), Box<dyn Error>> {
                         "lower" => ext.to_lowercase(),
                         _ => ext.to_string(),
                     };
-                    let new_path = path.with_extension(new_ext);
-                    match fs::rename(&path, &new_path) {
-                        Ok(_) => {
-                            result += &format!("{} -> {}\n", file, new_path.display());
-                        },
-                        Err(e) => {
-                            result += &format!("{} 失败: {}\n", file, e);
+                    
+                    if new_ext != ext {
+                        let new_path = path.with_extension(new_ext);
+                        match fs::rename(&path, &new_path) {
+                            Ok(_) => {
+                                result += &format!("{} -> {}\n", path.display(), new_path.display());
+                            },
+                            Err(e) => {
+                                result += &format!("{} 失败: {}\n", path.display(), e);
+                            }
                         }
+                    } else {
+                        result += &format!("{} (无需更改)\n", path.display());
                     }
+                } else {
+                    result += &format!("{} (无扩展名)\n", path.display());
                 }
-                processed += 1;
+                
+                processed = index + 1;
                 app.set_progress(processed as f32 / total.max(1) as f32);
             }
+            
+            if total == 0 {
+                result = "没有找到可处理的文件。\n".to_string();
+            }
+            
             app.set_result_text(result.into());
         }
     });
@@ -147,11 +204,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         });
 
-        if let Some(app) = app_weak.upgrade() {
-            settings.set_language(app.get_language());
-            settings.set_dark_mode(app.get_dark_mode());
-            settings.show().unwrap();
-        }
+        settings.show().unwrap();
     });
 
     let _app_weak = app.as_weak();

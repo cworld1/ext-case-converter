@@ -2,8 +2,8 @@ import { Button, ComboBox } from "std-widgets.slint";
 
 export component SettingsPanel inherits Window {
     preferred-width: 360px;
-    preferred-height: 280px;
-    title: "设置";
+    preferred-height: 240px;
+    title: @tr("Settings");
 
     in-out property <string> language;
     in-out property <bool> dark_mode;
@@ -14,17 +14,19 @@ export component SettingsPanel inherits Window {
         padding: 20px;
         spacing: 20px;
 
+        // 语言设置行
         HorizontalLayout {
             spacing: 8px;
             alignment: space-between;
 
             Text {
-                text: "语言";
+                text: @tr("Language");
                 font-size: 14px;
                 vertical-alignment: center;
             }
 
             ComboBox {
+                width: 150px;
                 model: ["中文", "English"];
                 current-index: root.selected_language_index;
                 selected(value) => {
@@ -39,39 +41,44 @@ export component SettingsPanel inherits Window {
             }
         }
 
-        // 主题设置
+        // 主题设置行
         HorizontalLayout {
             spacing: 8px;
             alignment: space-between;
 
             Text {
-                text: "主题";
+                text: @tr("Theme");
                 font-size: 14px;
                 vertical-alignment: center;
             }
 
             ComboBox {
-                model: ["浅色", "深色", "跟随系统"];
+                width: 150px;
+                model: [@tr("Light"), @tr("Dark"), @tr("Follow System")];
                 current-index: root.selected_theme_index;
                 selected(value) => {
-                    if value == "深色" {
+                    // 根据索引设置主题
+                    root.selected_theme_index = self.current-index;
+                    if self.current-index == 1 {
                         root.dark_mode = true;
-                        root.selected_theme_index = 1;
-                    } else if value == "浅色" {
+                    } else if self.current-index == 0 {
                         root.dark_mode = false;
-                        root.selected_theme_index = 0;
-                    } else {
-                        root.selected_theme_index = 2;
                     }
                 }
             }
         }
 
+        // 占位空间，将按钮推到底部
+        Rectangle {
+            // 这个空的 Rectangle 会占用剩余空间
+        }
+
         // 底部按钮
         HorizontalLayout {
+            height: 32px;
             alignment: end;
             Button {
-                text: "确定";
+                text: @tr("OK");
                 clicked => {
                     root.close_settings();
                 }

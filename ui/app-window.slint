@@ -3,7 +3,7 @@ import { Button, Switch, ScrollView } from "std-widgets.slint";
 export component AppWindow inherits Window {
     preferred-width: 600px;
     preferred-height: 500px;
-    title: "扩展名大小写转换工具";
+    title: @tr("File Extension Case Converter");
 
     in-out property <[string]> file_list: [];
     in-out property <bool> recursive: false;
@@ -30,14 +30,14 @@ export component AppWindow inherits Window {
             HorizontalLayout {
                 spacing: 8px;
                 Button {
-                    text: "选择文件/文件夹";
+                    text: @tr("Select Files/Folders");
                     clicked => {
                         root.select_files();
                     }
                 }
 
                 Switch {
-                    text: "递归子目录";
+                    text: @tr("Recursive Subdirectories");
                     checked: root.recursive;
                     toggled => {
                         root.recursive = !root.recursive;
@@ -49,14 +49,14 @@ export component AppWindow inherits Window {
                 spacing: 8px;
                 alignment: end;
                 Button {
-                    text: "设置";
+                    text: @tr("Settings");
                     clicked => {
                         root.show_settings();
                     }
                 }
 
                 Button {
-                    text: "关于";
+                    text: @tr("About");
                     clicked => {
                         root.show_about();
                     }
@@ -83,7 +83,7 @@ export component AppWindow inherits Window {
                         TouchArea {
                             // 拖拽事件需在 Rust 侧处理
                             Text {
-                                text: "将文件或文件夹拖放到此处";
+                                text: @tr("Drag and drop files or folders here");
                                 font-size: 14px;
                                 horizontal-alignment: center;
                                 vertical-alignment: center;
@@ -114,7 +114,7 @@ export component AppWindow inherits Window {
             spacing: 8px;
 
             Button {
-                text: "转为大写";
+                text: @tr("Convert to Uppercase");
                 primary: true;
                 clicked => {
                     root.convert_case("upper");
@@ -122,7 +122,7 @@ export component AppWindow inherits Window {
             }
 
             Button {
-                text: "转为小写";
+                text: @tr("Convert to Lowercase");
                 primary: true;
                 clicked => {
                     root.convert_case("lower");

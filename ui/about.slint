@@ -1,50 +1,83 @@
 import { Button } from "std-widgets.slint";
 
 export component AboutPanel inherits Window {
-    preferred-width: 320px;
-    preferred-height: 200px;
-    title: "关于";
+    preferred-width: 400px;
+    preferred-height: 300px;
+    title: @tr("About");
 
     VerticalLayout {
-        padding: 16px;
+        padding: 20px;
         spacing: 16px;
 
-        Rectangle {
-            border-radius: 6px;
-            border-width: 1px;
-            border-color: #717171;
-
-            VerticalLayout {
-                padding: 16px;
-                spacing: 8px;
-                alignment: center;
-
+        // 应用图标和标题
+        VerticalLayout {
+            spacing: 8px;
+            alignment: center;
+            Rectangle {
+                height: 64px;
+                width: 64px;
+                background: #4a90e2;
+                border-radius: 8px;
                 Text {
-                    text: "扩展名大小写转换工具";
-                    font-size: 18px;
+                    text: "Aa";
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: white;
+                    horizontal-alignment: center;
+                    vertical-alignment: center;
                 }
+            }
 
-                Text {
-                    text: "版本: v1.0";
-                    font-size: 14px;
-                }
+            Text {
+                text: @tr("File Extension Case Converter");
+                font-size: 18px;
+                font-weight: 600;
+                horizontal-alignment: center;
+            }
 
-                Text {
-                    text: "作者: CWorld";
-                    font-size: 14px;
-                }
-
-                Text {
-                    text: "GitHub: https://github.com/cworld1/ext-case-converter";
-                    font-size: 14px;
-                }
+            Text {
+                text: "v1.0.0";
+                font-size: 14px;
+                color: #666;
+                horizontal-alignment: center;
             }
         }
 
+        // 描述信息
+        VerticalLayout {
+            spacing: 8px;
+            Text {
+                text: @tr("A simple tool to convert file extension cases between uppercase and lowercase.");
+                font-size: 14px;
+                wrap: word-wrap;
+                horizontal-alignment: center;
+            }
+
+            Text {
+                text: @tr("Built with Slint UI framework and Rust.");
+                font-size: 12px;
+                color: #666;
+                horizontal-alignment: center;
+            }
+
+            Text {
+                text: "GitHub: https://github.com/cworld1/ext-case-converter";
+                font-size: 12px;
+                color: #666;
+                horizontal-alignment: center;
+            }
+        }
+
+        // 占位空间
+        Rectangle {
+            // 推送按钮到底部
+        }
+
+        // 底部按钮
         HorizontalLayout {
-            alignment: end;
+            alignment: center;
             Button {
-                text: "确认";
+                text: @tr("OK");
                 clicked => {
                     root.close_about();
                 }
