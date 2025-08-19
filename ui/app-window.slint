@@ -97,7 +97,7 @@ export component AppWindow inherits Window {
 
                         Text {
                             text: file;
-                            font-size: 13px;
+                            font-size: 14px;
                             horizontal-alignment: left;
                             vertical-alignment: center;
                             x: 8px;
@@ -169,16 +169,15 @@ export component AppWindow inherits Window {
             border-color: #717171;
 
             ScrollView {
-                width: parent.width;
-                height: parent.height;
-                viewport-height: self.visible-height;
-
-                Text {
+                VerticalLayout {
                     padding: 8px;
-                    text: root.result_text;
-                    wrap: word-wrap;
-                    color: #333;
-                    font-size: 13px;
+                    Text {
+                        text: root.result_text;
+                        wrap: word-wrap;
+                        font-size: 14px;
+                        horizontal-alignment: left;
+                        vertical-alignment: top;
+                    }
                 }
             }
         }
