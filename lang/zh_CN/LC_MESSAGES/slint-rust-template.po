@@ -16,24 +16,34 @@ msgctxt "AboutPanel"
 msgid "About"
 msgstr "关于"
 
-#: about.slint:32
+#: about.slint:45
 msgctxt "AboutPanel"
 msgid "File Extension Case Converter"
 msgstr "扩展名大小写转换工具"
 
-#: about.slint:50
+#: about.slint:77
 msgctxt "AboutPanel"
 msgid ""
 "A simple tool to convert file extension cases between uppercase and "
 "lowercase."
 msgstr "一个用于在大写和小写之间转换文件扩展名的简单工具。"
 
-#: about.slint:57
+#: about.slint:91
 msgctxt "AboutPanel"
 msgid "Built with Slint UI framework and Rust."
 msgstr "使用 Slint UI 框架和 Rust 构建。"
 
-#: about.slint:80
+#: about.slint:58
+msgctxt "AboutPanel"
+msgid "by"
+msgstr "作者:"
+
+#: about.slint:102
+msgctxt "AboutPanel"
+msgid "View on GitHub"
+msgstr "在 GitHub 上查看"
+
+#: about.slint:117
 msgctxt "AboutPanel"
 msgid "OK"
 msgstr "确定"
@@ -88,25 +98,10 @@ msgctxt "SettingsPanel"
 msgid "Language"
 msgstr "语言"
 
-#: settings.slint:50
+#: settings.slint:46
 msgctxt "SettingsPanel"
-msgid "Theme"
-msgstr "主题"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Light"
-msgstr "浅色"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Dark"
-msgstr "深色"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Follow System"
-msgstr "跟随系统"
+msgid "Default Recursive Folders"
+msgstr "默认开启递归文件夹"
 
 #: settings.slint:81
 msgctxt "SettingsPanel"

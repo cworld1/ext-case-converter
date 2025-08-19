@@ -1,14 +1,13 @@
-import { Button, ComboBox } from "std-widgets.slint";
+import { Button, ComboBox, CheckBox } from "std-widgets.slint";
 
 export component SettingsPanel inherits Window {
     preferred-width: 360px;
-    preferred-height: 240px;
+    preferred-height: 200px;
     title: @tr("Settings");
 
     in-out property <string> language;
-    in-out property <bool> dark_mode;
+    in-out property <bool> default_recursive;
     in-out property <int> selected_language_index: 0;
-    in-out property <int> selected_theme_index: 0;
 
     VerticalLayout {
         padding: 20px;
@@ -41,29 +40,21 @@ export component SettingsPanel inherits Window {
             }
         }
 
-        // 主题设置行
+        // 默认递归设置行
         HorizontalLayout {
             spacing: 8px;
             alignment: space-between;
 
             Text {
-                text: @tr("Theme");
+                text: @tr("Default Recursive Folders");
                 font-size: 14px;
                 vertical-alignment: center;
             }
 
-            ComboBox {
-                width: 150px;
-                model: [@tr("Light"), @tr("Dark"), @tr("Follow System")];
-                current-index: root.selected_theme_index;
-                selected(value) => {
-                    // 根据索引设置主题
-                    root.selected_theme_index = self.current-index;
-                    if self.current-index == 1 {
-                        root.dark_mode = true;
-                    } else if self.current-index == 0 {
-                        root.dark_mode = false;
-                    }
+            CheckBox {
+                checked: root.default_recursive;
+                toggled => {
+                    root.default_recursive = !root.default_recursive;
                 }
             }
         }

@@ -5,16 +5,14 @@ use std::collections::HashMap;
 #[derive(Debug, Clone)]
 pub struct AppConfig {
     pub language: String,
-    pub theme: String,
-    pub dark_mode: bool,
+    pub default_recursive: bool,
 }
 
 impl Default for AppConfig {
     fn default() -> Self {
         Self {
             language: "zh".to_string(),
-            theme: "system".to_string(),
-            dark_mode: false,
+            default_recursive: false,
         }
     }
 }
@@ -51,11 +49,8 @@ impl AppConfig {
         if let Some(language) = table.get("language").and_then(|v| v.as_str()) {
             config.language = language.to_string();
         }
-        if let Some(theme) = table.get("theme").and_then(|v| v.as_str()) {
-            config.theme = theme.to_string();
-        }
-        if let Some(dark_mode) = table.get("dark_mode").and_then(|v| v.as_bool()) {
-            config.dark_mode = dark_mode;
+        if let Some(default_recursive) = table.get("default_recursive").and_then(|v| v.as_bool()) {
+            config.default_recursive = default_recursive;
         }
         
         Ok(config)
@@ -65,37 +60,10 @@ impl AppConfig {
         format!(
             r#"# File Extension Case Converter Configuration
 language = "{}"
-theme = "{}"
-dark_mode = {}
+default_recursive = {}
 "#,
-            self.language, self.theme, self.dark_mode
+            self.language, self.default_recursive
         )
-    }
-
-    pub fn get_theme_index(&self) -> i32 {
-        match self.theme.as_str() {
-            "light" => 0,
-            "dark" => 1,
-            "system" => 2,
-            _ => 2,
-        }
-    }
-
-    pub fn set_theme_by_index(&mut self, index: i32) {
-        match index {
-            0 => {
-                self.theme = "light".to_string();
-                self.dark_mode = false;
-            },
-            1 => {
-                self.theme = "dark".to_string();
-                self.dark_mode = true;
-            },
-            _ => {
-                self.theme = "system".to_string();
-                self.dark_mode = false;
-            }
-        }
     }
 
     pub fn get_language_index(&self) -> i32 {

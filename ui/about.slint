@@ -1,30 +1,43 @@
 import { Button } from "std-widgets.slint";
 
 export component AboutPanel inherits Window {
-    preferred-width: 400px;
-    preferred-height: 300px;
+    preferred-width: 420px;
+    preferred-height: 350px;
     title: @tr("About");
+
+    in-out property <string> app_version: "0.1.0";
+    in-out property <string> app_author: "CWorld";
+    in-out property <string> github_url: "https://github.com/cworld1/ext-case-converter";
+
+    callback close_about();
+    callback open_github_link();
 
     VerticalLayout {
         padding: 20px;
         spacing: 16px;
 
-        // 应用图标和标题
+        // Icon & title
         VerticalLayout {
             spacing: 8px;
-            alignment: center;
-            Rectangle {
-                height: 64px;
-                width: 64px;
-                background: #4a90e2;
-                border-radius: 8px;
-                Text {
-                    text: "Aa";
-                    font-size: 24px;
-                    font-weight: 700;
-                    color: white;
-                    horizontal-alignment: center;
-                    vertical-alignment: center;
+            padding-bottom: 16px;
+
+            // Icon
+            HorizontalLayout {
+                alignment: center;
+                Rectangle {
+                    height: 64px;
+                    width: 64px;
+                    background: #4a90e2;
+                    border-radius: 10px;
+
+                    Text {
+                        text: "Aa";
+                        font-size: 24px;
+                        font-weight: 700;
+                        color: white;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
                 }
             }
 
@@ -36,35 +49,60 @@ export component AboutPanel inherits Window {
             }
 
             Text {
-                text: "v1.0.0";
+                text: "v" + root.app_version;
                 font-size: 14px;
-                color: #666;
+                color: #8b8b8b;
                 horizontal-alignment: center;
+            }
+
+            Text {
+                text: @tr("by") + " " + root.app_author;
+                font-size: 12px;
+                color: #8b8b8b;
+                horizontal-alignment: center;
+            }
+
+            // Divider
+            HorizontalLayout {
+                alignment: center;
+                Rectangle {
+                    height: 1px;
+                    width: 100px;
+                    background: #8b8b8b;
+                    border-radius: 8px;
+                }
             }
         }
 
-        // 描述信息
-        VerticalLayout {
+        Text {
+            text: @tr("A simple tool to convert file extension cases between uppercase and lowercase.");
+            font-size: 14px;
+            wrap: word-wrap;
+        }
+
+        HorizontalLayout {
             spacing: 8px;
-            Text {
-                text: @tr("A simple tool to convert file extension cases between uppercase and lowercase.");
-                font-size: 14px;
-                wrap: word-wrap;
-                horizontal-alignment: center;
+            Rectangle {
+                height: 18px;
+                width: 3px;
+                background: #8b8b8b;
+                border-radius: 8px;
             }
 
             Text {
                 text: @tr("Built with Slint UI framework and Rust.");
                 font-size: 12px;
-                color: #666;
-                horizontal-alignment: center;
             }
+        }
 
-            Text {
-                text: "GitHub: https://github.com/cworld1/ext-case-converter";
-                font-size: 12px;
-                color: #666;
-                horizontal-alignment: center;
+        // GitHub链接按钮
+        HorizontalLayout {
+            alignment: center;
+            Button {
+                text: @tr("View on GitHub");
+                clicked => {
+                    root.open_github_link();
+                }
             }
         }
 
@@ -75,7 +113,7 @@ export component AboutPanel inherits Window {
 
         // 底部按钮
         HorizontalLayout {
-            alignment: center;
+            alignment: end;
             Button {
                 text: @tr("OK");
                 clicked => {
@@ -84,6 +122,4 @@ export component AboutPanel inherits Window {
             }
         }
     }
-
-    callback close_about();
 }

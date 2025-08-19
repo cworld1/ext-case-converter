@@ -22,7 +22,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     {
         let cfg = config.borrow();
         app.set_language(cfg.language.clone().into());
-        app.set_dark_mode(cfg.dark_mode);
+        app.set_recursive(cfg.default_recursive);
         
         // 设置 Slint 的语言
         let _ = match cfg.language.as_str() {

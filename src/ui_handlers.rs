@@ -94,9 +94,8 @@ pub fn setup_settings(app: &AppWindow, config: Rc<RefCell<AppConfig>>) {
         {
             let cfg = config_clone.borrow();
             settings.set_language(cfg.language.clone().into());
-            settings.set_dark_mode(cfg.dark_mode);
+            settings.set_default_recursive(cfg.default_recursive);
             settings.set_selected_language_index(cfg.get_language_index());
-            settings.set_selected_theme_index(cfg.get_theme_index());
         }
         
         settings.on_close_settings(move || {
@@ -106,7 +105,7 @@ pub fn setup_settings(app: &AppWindow, config: Rc<RefCell<AppConfig>>) {
                     
                     // 更新配置
                     cfg.set_language_by_index(settings.get_selected_language_index());
-                    cfg.set_theme_by_index(settings.get_selected_theme_index());
+                    cfg.default_recursive = settings.get_default_recursive();
                     
                     // 保存配置
                     if let Err(e) = cfg.save() {
@@ -122,7 +121,7 @@ pub fn setup_settings(app: &AppWindow, config: Rc<RefCell<AppConfig>>) {
                     
                     // 应用设置到主窗口
                     app.set_language(cfg.language.clone().into());
-                    app.set_dark_mode(cfg.dark_mode);
+                    app.set_recursive(cfg.default_recursive);
                     
                     settings.hide().unwrap();
                 }
@@ -136,9 +135,22 @@ pub fn setup_settings(app: &AppWindow, config: Rc<RefCell<AppConfig>>) {
 pub fn setup_about(app: &AppWindow) {
     let app_weak = app.as_weak();
     app.on_show_about(move || {
-        if let Some(app) = app_weak.upgrade() {
+        if let Some(_app) = app_weak.upgrade() {
             let about = AboutPanel::new().unwrap();
             let about_weak = about.as_weak();
+            
+            // 设置应用信息
+            about.set_app_version(env!("CARGO_PKG_VERSION").into());
+            about.set_app_author("CWorld".into());
+            about.set_github_url("https://github.com/cworld1/ext-case-converter".into());
+            
+            // 处理GitHub链接点击
+            let github_url = "https://github.com/cworld1/ext-case-converter".to_string();
+            about.on_open_github_link(move || {
+                if let Err(e) = open_url(&github_url) {
+                    eprintln!("Failed to open GitHub URL: {}", e);
+                }
+            });
             
             about.on_close_about(move || {
                 if let Some(about) = about_weak.upgrade() {
@@ -149,4 +161,26 @@ pub fn setup_about(app: &AppWindow) {
             about.show().unwrap();
         }
     });
+}
+
+fn open_url(url: &str) -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(target_os = "windows")]
+    {
+        std::process::Command::new("cmd")
+            .args(["/c", "start", "", url])
+            .spawn()?;
+    }
+    #[cfg(target_os = "macos")]
+    {
+        std::process::Command::new("open")
+            .arg(url)
+            .spawn()?;
+    }
+    #[cfg(target_os = "linux")]
+    {
+        std::process::Command::new("xdg-open")
+            .arg(url)
+            .spawn()?;
+    }
+    Ok(())
 }

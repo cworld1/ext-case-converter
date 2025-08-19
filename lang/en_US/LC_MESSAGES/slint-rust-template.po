@@ -16,12 +16,12 @@ msgctxt "AboutPanel"
 msgid "About"
 msgstr "About"
 
-#: about.slint:32
+#: about.slint:45
 msgctxt "AboutPanel"
 msgid "File Extension Case Converter"
 msgstr "File Extension Case Converter"
 
-#: about.slint:50
+#: about.slint:77
 msgctxt "AboutPanel"
 msgid ""
 "A simple tool to convert file extension cases between uppercase and "
@@ -30,12 +30,22 @@ msgstr ""
 "A simple tool to convert file extension cases between uppercase and "
 "lowercase."
 
-#: about.slint:57
+#: about.slint:91
 msgctxt "AboutPanel"
 msgid "Built with Slint UI framework and Rust."
 msgstr "Built with Slint UI framework and Rust."
 
-#: about.slint:80
+#: about.slint:58
+msgctxt "AboutPanel"
+msgid "by"
+msgstr "by"
+
+#: about.slint:102
+msgctxt "AboutPanel"
+msgid "View on GitHub"
+msgstr "View on GitHub"
+
+#: about.slint:117
 msgctxt "AboutPanel"
 msgid "OK"
 msgstr "OK"
@@ -90,25 +100,10 @@ msgctxt "SettingsPanel"
 msgid "Language"
 msgstr "Language"
 
-#: settings.slint:50
+#: settings.slint:46
 msgctxt "SettingsPanel"
-msgid "Theme"
-msgstr "Theme"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Light"
-msgstr "Light"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Dark"
-msgstr "Dark"
-
-#: settings.slint:57
-msgctxt "SettingsPanel"
-msgid "Follow System"
-msgstr "Follow System"
+msgid "Default Recursive Folders"
+msgstr "Default Recursive Folders"
 
 #: settings.slint:81
 msgctxt "SettingsPanel"
