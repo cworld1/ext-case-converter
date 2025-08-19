@@ -4,6 +4,7 @@ export component AboutPanel inherits Window {
     preferred-width: 420px;
     preferred-height: 350px;
     title: @tr("About");
+    icon: @image-url("../assets/favicon.png");
 
     in-out property <string> app_version: "0.1.0";
     in-out property <string> app_author: "CWorld";
@@ -24,20 +25,11 @@ export component AboutPanel inherits Window {
             // Icon
             HorizontalLayout {
                 alignment: center;
-                Rectangle {
-                    height: 64px;
-                    width: 64px;
-                    background: #4a90e2;
-                    border-radius: 10px;
-
-                    Text {
-                        text: "Aa";
-                        font-size: 24px;
-                        font-weight: 700;
-                        color: white;
-                        horizontal-alignment: center;
-                        vertical-alignment: center;
-                    }
+                Image {
+                    height: 96px;
+                    width: 96px;
+                    source: @image-url("../assets/favicon.png");
+                    image-fit: contain;
                 }
             }
 
@@ -49,15 +41,8 @@ export component AboutPanel inherits Window {
             }
 
             Text {
-                text: "v" + root.app_version;
+                text: "v" + root.app_version + "  |  " + @tr("by") + " " + root.app_author;
                 font-size: 14px;
-                color: #8b8b8b;
-                horizontal-alignment: center;
-            }
-
-            Text {
-                text: @tr("by") + " " + root.app_author;
-                font-size: 12px;
                 color: #8b8b8b;
                 horizontal-alignment: center;
             }
@@ -96,13 +81,10 @@ export component AboutPanel inherits Window {
         }
 
         // GitHub链接按钮
-        HorizontalLayout {
-            alignment: center;
-            Button {
-                text: @tr("View on GitHub");
-                clicked => {
-                    root.open_github_link();
-                }
+        Button {
+            text: @tr("View on GitHub");
+            clicked => {
+                root.open_github_link();
             }
         }
 
