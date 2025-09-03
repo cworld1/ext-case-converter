@@ -30,8 +30,6 @@ jobs:
           - os: ubuntu-latest
             target: i686-unknown-linux-gnu
             deb: true
-          - os: ubuntu-latest
-            target: aarch64-linux-android
           - os: macos-latest
             target: x86_64-apple-darwin
           - os: macos-latest
